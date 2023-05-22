@@ -4,7 +4,7 @@ Gitlab CI-CD project
 General
 ------------
 
-It implements a pipeline with gitlab CI-CD using a gitlab runner.
+It implements a pipeline with gitlab-CI using a gitlab runner.
 In each run it does the following:
 
 1)Runs tests on the container and on success pushes the image to gitlab container registry while using secrets from a vault server
