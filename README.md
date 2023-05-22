@@ -32,13 +32,15 @@ https://docs.docker.com/engine/install/ubuntu/
 
 3)Gitlab runner integrated with AWS cli, you can follow the following commands:
 
- `- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
+ ```
+ - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
  
- `- unzip -u awscliv2.zip`
+ - unzip -u awscliv2.zip
  
- `- sudo ./aws/install`
+ - sudo ./aws/install
  
- `- aws --version`
+ - aws --version
+ ```
 
 4)Fully operational AWS EKS
 - You can visit this site on how to install EKS: https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html
@@ -71,7 +73,9 @@ sudo tee /etc/apt/sources.list.d/hashicorp.list
 
 You can use the following command to run it as docker container:
 
- `- docker run -d --cap-add=IPC_LOCK -e 'VAULT_LOCAL_CONFIG={"storage": {"file": {"path": "/vault/file"}}, "listener": [{"tcp": { "address": "0.0.0.0:8200", "tls_disable": true}}], "default_lease_ttl": "168h", "max_lease_ttl": "720h", "ui": true}' -p 8200:8200 vault server`
+ ```
+ - docker run -d --cap-add=IPC_LOCK -e 'VAULT_LOCAL_CONFIG={"storage": {"file": {"path": "/vault/file"}}, "listener": [{"tcp": { "address": "0.0.0.0:8200", "tls_disable": true}}], "default_lease_ttl": "168h", "max_lease_ttl": "720h", "ui": true}' -p 8200:8200 vault server
+ ```
 
  7)MongoDB server, you can use the free one on their website
 
