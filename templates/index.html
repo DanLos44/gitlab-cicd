@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Web Application</title>
+</head>
+<body>
+	<h1>My Web Application</h1>
+	<form action="/create" method="post">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name">
+		<br>
+		<div style="height: 30px"></div>
+		<label for="age">Age:</label>
+		<input type="number" id="age" name="age">
+		<br>
+		<div style="height: 30px"></div>
+		<input type="submit" value="Create">
+		<div style="height: 30px"></div>
+	</form>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Age</th>
+				<th>Update</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for record in data %}
+			<tr>
+				<td>{{ record['name'] }}</td>
+				<td>{{ record['age'] }}</td>
+				<td>
+					<form action="/update/{{ record['_id'] }}" method="post">
+						<label for="name_{{ record['_id'] }}">Name:</label>
+						<input type="text" id="name_{{ record['_id'] }}" name="name" value="{{ record['name'] }}"><br>
+						<label for="age_{{ record['_id'] }}">Age:</label>
+						<input type="text" id="age_{{ record['_id'] }}" name="age" value="{{ record['age'] }}"><br>
+						<input type="submit" value="Update">
+					</form>
+				</td>
+				<td>
+					<form action="/delete/{{ record['_id'] }}">
+							<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>
+
+
+

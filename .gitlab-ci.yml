@@ -1,0 +1,55 @@
+stages:
+  - test
+  - push
+  - build
+  - deploy
+
+test:
+  stage: test
+  script:
+    - echo starting tests
+    - docker run --rm --network host -e VAULT_TOKEN=$VAULT_TOKEN -e VAULT_ADDR=$VAULT_ADDR_LOCAL my-image python3 -m unittest test_app.py
+  only:
+   - main
+
+push:
+  stage: push
+  script:
+    - git config user.email $GITLAB_MYEMAIL
+    - git config user.name $GITLAB_MYUSER
+    - git checkout main
+    - git pull
+    - git remote set-url origin https://gitlab-crud:$GITLAB_TOKEN@gitlab.com/DanLos44/gitlab-crud.git
+    - git push --force origin main:master   
+  only:
+    - main
+        
+build:
+  stage: build
+  script:
+    - echo building now
+    - docker build -t my-image .
+    - docker tag my-image $CI_REGISTRY_IMAGE/my-image
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE/my-image
+  only:
+    - master
+
+    
+deploy:
+  stage: deploy
+  script:
+    - aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+    - aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+    - aws configure set region ${AWS_DEFAULT_REGION}
+    - aws eks update-kubeconfig --name my-cluster	
+    - kubectl apply -f crud-app.yaml
+    - kubectl set env deployment/mongo-app VAULT_TOKEN=$VAULT_TOKEN_AWS VAULT_ADDR=$VAULT_SERVER_AWS
+  only:
+    - master
+
+
+
+
+
+

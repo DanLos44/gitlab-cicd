@@ -1,0 +1,9 @@
+Flask
+pymongo>=3.12.0
+hvac
+
+
+
+
+
+
